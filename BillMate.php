@@ -17,17 +17,7 @@
  * @link http://www.combain.com
  *
  * History:
- * 1.0 20130318 Yuksel Findik: First Version
- * 2.1 20130403 Yuksel Findik
- * 2.2 20130404 Yuksel Findik
- *
- * Dependencies:
- *
- *  xmlrpc-3.0.0.beta/lib/xmlrpc.inc
- *      from {@link http://phpxmlrpc.sourceforge.net/}
- *
- * xmlrpc-3.0.0.beta/lib/xmlrpc_wrappers.inc
- *      from {@link http://phpxmlrpc.sourceforge.net/}
+ * 0.1.0 20130318 Yuksel Findik: First Version
  *
  */
  class BillMate{
