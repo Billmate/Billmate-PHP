@@ -316,6 +316,10 @@
     protected function stat($type,$data, $response, $duration=0, $status=0) {
         $sock = @fsockopen('udp://'.$this->STAT, 51000, $errno, $errstr, 1500);
 
+		if(!isset($_SESSION["uniqueId"])){
+			$_SESSION["uniqueId"] = microtime(true)."-".rand(123456789, 987654321);
+		}
+		$uniqueId = $_SESSION["uniqueId"];
         if ($sock) {
         	$values = array(
         		"type"=>$type,
@@ -325,15 +329,16 @@
         		"duration"=>$duration,
         		"server"=>$_SERVER,
         		"eid"=>$this->eid,
-        		"client"=>$this->CLIENT
+        		"client"=>$this->CLIENT,
+				"uniqueId"=>$uniqueId
         	);
-                ob_start();
-                $writeflag = @fwrite($sock,json_encode($values));
-		ob_end_clean();
-                if($writeflag==0 && $type == 'add_invoice' ){
-                    $this->stat_post($data, $type,$response, $duration, $status);
-                }
-                @fclose($sock);
+			ob_start();
+			$writeflag = @fwrite($sock,json_encode($values));
+			ob_end_clean();
+			if($writeflag==0 && $type == 'add_invoice' ){
+				$this->stat_post($data, $type,$response, $duration, $status);
+			}
+			@fclose($sock);
         }
     }
     protected function stat_post($data_rw,$type='', $response="", $duration=0, $status=0){
