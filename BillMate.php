@@ -25,7 +25,7 @@
  *
  */
  class BillMate{
- 	var $SERVER = "0.5.8";
+ 	var $SERVER = "0.5.9";
  	var $CLIENT = "";
  	var $URL = "api.billmate.se";
  	var $URL_TEST = "apitest.billmate.se";
