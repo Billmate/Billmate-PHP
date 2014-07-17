@@ -49,6 +49,33 @@
  		$this->xmlrpc = new xmlrpc_client("/",$url,$this->port,$this->ssl?'https':'http');
         $this->xmlrpc->request_charset_encoding = 'ISO-8859-1';
  	}
+ 	function ActivateRecurringInvoice($no) {
+ 		$params = array(
+ 	       $this->eid,
+ 	       $no,
+ 	       $this->hash(array($this->eid, $no, $this->key))
+ 	   );
+ 	   $result = $this->call('activate_recurring_invoice', $params);
+ 	   return $result;
+ 	}
+ 	function SendEmail($no) {
+ 		$params = array(
+ 	       $this->eid,
+ 	       $no,
+ 	       $this->hash(array($this->eid, $no, $this->key))
+ 	   );
+ 	   $result = $this->call('send_email', $params);
+ 	   return $result;
+ 	}
+ 	function ExportInvoice($no) {
+ 		$params = array(
+ 	       $this->eid,
+ 	       $no,
+ 	       $this->hash(array($this->eid, $no, $this->key))
+ 	   );
+ 	   $result = $this->call('export_invoice', $params);
+ 	   return $result;
+ 	}
  	function ActivateInvoice($no,$additionalInfo=array("pclass"=>-1,"shipInfo"=>array())) {
 		$params = array(
             $this->eid,
