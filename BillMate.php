@@ -49,11 +49,12 @@
  		$this->xmlrpc = new xmlrpc_client("/",$url,$this->port,$this->ssl?'https':'http');
         $this->xmlrpc->request_charset_encoding = 'ISO-8859-1';
  	}
- 	function ActivateRecurringInvoice($no) {
+ 	function ActivateRecurringInvoice($no,$articles) {
  		$params = array(
  	       $this->eid,
  	       $no,
- 	       $this->hash(array($this->eid, $no, $this->key))
+ 	       $this->hash(array($this->eid, $no, $this->key)),
+ 	       $articles
  	   );
  	   $result = $this->call('activate_recurring_invoice', $params);
  	   return $result;
