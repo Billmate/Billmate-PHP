@@ -96,7 +96,17 @@
  			$tobehashed[] = $article["qty"];
  		}
  		$tobehashed[] = $this->key;
- 		
+ 		if(!isset($additionalinfo["flags"])) $additionalinfo["flags"] = 0;
+ 		if(!isset($additionalinfo["currency"])) $additionalinfo["currency"] = 0;
+ 		if(!isset($additionalinfo["country"])) $additionalinfo["country"] = 209;
+ 		if(!isset($additionalinfo["language"])) $additionalinfo["language"] = 138;
+ 		if(!isset($additionalinfo["pclass"])) $additionalinfo["pclass"] = -1;
+		$emptyArrayKeys = array("shipInfo","travelInfo","incomeInfo","bankInfo","extraInfo");
+		foreach ($emptyArrayKeys as $key) if(!isset($additionalinfo[$key])) $additionalinfo[$key] = array();
+		
+		$emptyArrayKeys = array("order1","order2","comment","reference","reference_code");
+		foreach ($emptyArrayKeys as $key) if(!isset($additionalinfo[$key])) $additionalinfo[$key] = "";
+ 			
  		$params = array(
  			$reservationno,
  			$additionalinfo["ocr"],
@@ -191,6 +201,18 @@
  		$tobehashed = array();
  		foreach ($articles as $article) $tobehashed[] = $article['goods']['title'];
  		$tobehashed[] = $this->key;
+ 		
+ 		if(!isset($additionalinfo["flags"])) $additionalinfo["flags"] = 0;
+ 		if(!isset($additionalinfo["currency"])) $additionalinfo["currency"] = 0;
+ 		if(!isset($additionalinfo["country"])) $additionalinfo["country"] = 209;
+ 		if(!isset($additionalinfo["language"])) $additionalinfo["language"] = 138;
+ 		if(!isset($additionalinfo["pclass"])) $additionalinfo["pclass"] = -1;
+		$emptyArrayKeys = array("shipInfo","travelInfo","incomeInfo","bankInfo","extraInfo");
+		foreach ($emptyArrayKeys as $key) if(!isset($additionalinfo[$key])) $additionalinfo[$key] = array();
+		
+		$emptyArrayKeys = array("order1","order2","comment","reference","reference_code");
+		foreach ($emptyArrayKeys as $key) if(!isset($additionalinfo[$key])) $additionalinfo[$key] = "";
+ 		
  		$params = array(
  		    $pno,
  		    strval($additionalinfo["gender"]),
