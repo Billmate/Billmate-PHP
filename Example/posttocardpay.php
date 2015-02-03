@@ -2,15 +2,16 @@
 
 require_once('Billmate.php');
 
-$eid = ''; // Set to yours
-$secret = ''; // Set to yours.
+define('ID'),0000) // Set your ID, you can find it in Billmate Online.
+define('SECRET',0000000) // Set your secret, you can find it in Billmate Online.
 
 define('CARDPAY',8);
 define('BANKPAY',16);
-define('SITE_URL', 'http://www.yoursiteurl.com'); // Change this to your store url.
-
-define('SALE',1);
-define('AUTHORIZE',0);
+define('SITE_URL', 'http://www.yoursiteurl.com'); // Set this to your store url.
+define('SSL'), true); // Set this to your SSL setting, true or false.
+//define('SALE',1);
+//define('AUTHORIZE',0);
+define('AUTOACTIVATE', 0) // Set 0 for no auto activatem set to 1 for auto activate
 define('PROMPTNAME',0); // Set 0 for no name prompt on payment windows. Set 1 for name prompt.
 define('THREEDSECURE',1); // Set 0 for no 3D Secure on card transactions. Set 1 for 3D secure requirement.
 define('TEST'), false); // Set to true for live mode, set to false for test mode
@@ -20,7 +21,7 @@ $orderValues['PaymentData'] = array(
     'currency' => 'SEK',
     'country' => 'SE', // Country in ISA Alpha 2 format
     'orderid' => $_POST['order_id'], // Your order id
-    'autoactivate' => SALE, // Could be SALE or AUTHORIZE
+    'autoactivate' => AUTOACTIVATE, // Could be SALE or AUTHORIZE, see declaration.
     'language' => 'sv'
 );
 
@@ -40,7 +41,6 @@ $orderValues['Card'] = array(
 $orderValues['Customer'] = array(
     'nr' => isset($_POST['customer_id']) ? $_POST['customer_id'] : 0,
 );
-
 
 $orderValues['Customer']['Billing'] = array(
     'firstname' => $_POST['firstname'],
@@ -85,7 +85,6 @@ if(isset($_POST['shipping_price']) && $_POST['shipping_price'] > 0){
         'withouttax' => $_POST['shipping_price'] * 100,
         'taxrate' => (int)25
     );
-
 	$total += $_POST['shipping_price'] * 100;
 	$totalTax += ($_POST['shipping_price'] * 100) * 0.25;
 }
@@ -103,19 +102,15 @@ $orderValues['Cart']['Total'] = array(
     'withtax' =>(int) $total + (int)$totalTax + (int) $round
 );
 
-$billmate = new Billmate($eid, $secret, true, TEST, false);
+$billmate = new Billmate(ID, SECRET, true, TEST, false);
 
 $result = $billmate->addPayment($orderValues);
 
 if(isset($result['code'])){
-
     // Something went wrong, display error
 	echo 'Something went wrong';
 	echo  $result['message'];
-
 } else {
-
 	// All went good, redirect customer to Billmate payment window
 	header('Location: '.$result['url']);
-
 }
