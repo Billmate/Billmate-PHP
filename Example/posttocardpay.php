@@ -1,19 +1,19 @@
 <?php
 
 /**
- * This file server the purpose of being an example implementation of the Billmate.php class file.
+ * This file serves the purpose of being an example implementation of the Billmate.php class file.
  * It's your own resposibility to make sure your application works according to the Billmate API specification, see http://billmate.se/api-integration
  */
 
 require_once('Billmate.php');
 
-define('ID',0000) // Set your ID, you can find it in Billmate Online.
-define('SECRET',0000000) // Set your secret, you can find it in Billmate Online.
+define('ID',0000): // Set your ID, you can find it in Billmate Online.
+define('SECRET',0000000); // Set your secret, you can find it in Billmate Online.
 
 define('PAYMENTMETHOD', 8); // Defines the payment method. 8=Card, 16=Bank, 24=Card/Bank
 define('SITE_URL', 'http://www.yoursiteurl.com'); // Set this to your store url.
 define('SSL', true); // Set this to your SSL setting, true or false.
-define('AUTOACTIVATE', 0) // Set 0 for no auto activatem set to 1 for auto activate
+define('AUTOACTIVATE', 0); // Set 0 for no auto activatem set to 1 for auto activate
 define('PROMPTNAME',0); // Set 0 for no name prompt on payment windows. Set 1 for name prompt.
 define('THREEDSECURE',1); // Set 0 for no 3D Secure on card transactions. Set 1 for 3D secure requirement.
 define('TEST', false); // Set to true for live mode, set to false for test mode
