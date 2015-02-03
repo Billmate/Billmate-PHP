@@ -15,6 +15,7 @@ define('AUTOACTIVATE', 0) // Set 0 for no auto activatem set to 1 for auto activ
 define('PROMPTNAME',0); // Set 0 for no name prompt on payment windows. Set 1 for name prompt.
 define('THREEDSECURE',1); // Set 0 for no 3D Secure on card transactions. Set 1 for 3D secure requirement.
 define('TEST'), false); // Set to true for live mode, set to false for test mode
+define('DEBUG', false); // Set to true for debug messages, set to false for no debug messages.
 
 $orderValues['PaymentData'] = array(
     'method' => CARDPAY,
@@ -102,7 +103,7 @@ $orderValues['Cart']['Total'] = array(
     'withtax' =>(int) $total + (int)$totalTax + (int) $round
 );
 
-$billmate = new Billmate(ID, SECRET, true, TEST, false);
+$billmate = new Billmate(ID, SECRET, SSL, TEST, DEBUG);
 
 $result = $billmate->addPayment($orderValues);
 
