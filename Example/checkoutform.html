@@ -1,0 +1,86 @@
+<html>
+<head>
+	<title>
+		My store
+	</title>
+</head>
+<style>
+	fieldset{
+		float:left;
+		
+	}
+	label{
+		display: block;
+	}
+</style>
+<body>
+	<form action="posttocardpay.php" method="POST">
+		<fieldset>
+			<legend>Billing Address</legend>
+			<label for="firstname">First name</label>
+			<input type="text" name="firstname">
+			<label for="lastname">Last name</label>
+			<input type="text" name="lastname">
+			<label for="company">Company</label>
+			<input type="text" name="company">
+			<label for="street">Street</label>
+			<input type="text" name="street">
+			<label for="postcode">Postcode</label>
+			<input type="text" name="postcode">
+			<label for="city">City</label>
+			<input type="text" name="city">
+			
+			<input type="hidden" name="country" value="SE">
+			<label for="phone">Telephone</label>
+			<input type="text" name="phone">
+			<label for="email">Email</label>
+			<input type="text" name="email">
+		</fieldset>
+		
+
+		<fieldset>
+			<legend>Shipping-Address</legend>
+			<label for="use_billing">Ship to Billing Address</label>
+			<input type="checkbox" name="shiptobilling" value="1" checked="checked">
+			<label for="shipping_firstname">Firstname</label>
+			<input type="text" name="shipping_firstname">
+			<label for="shipping_lastname">Lastname</label>
+			<input type="text" name="shipping_lastname">
+			<label for="shipping_company">Company</label>
+			<input type="text" name="shipping_company">
+			<label for="shipping_street">Steet</label>
+			<input type="text" name="shipping_street">
+			<label for="shipping_postcode">Postcode</label>
+			<input type="text" name="shipping_postcode">
+			<label for="shipping_city">City</label>
+			<input type="text" name="shipping_city">
+
+			<input type="hidden" name="shipping_country" value="SE">
+			<label for="shipping_phone">Telephone</label>
+			<input type="text" name="shipping_phone">
+		</fieldset>
+		
+		<input type="hidden" name="order_id" value="123567">
+		<input type="hidden" name="customer_id" value="1234567">
+		<fieldset>
+			<legend>Articles</legend>
+			<label for="article_quantity">Antal</label>
+			<input type="text" name="article_quantity">macbook pro
+			<input type="hidden" name="article_id" value="art1234"/>
+
+			<input type="hidden" name="article_price" value="30">
+			<input type="hidden" name="article_title" value="macbook pro"/>
+		</fieldset>
+		<fieldset>
+			<legend>Shipping</legend>
+			<select name="shipping_price" id="shipping">
+				<option value="0"> Gratis frakt</option>
+				<option value="34"> 34kr frakt</option>
+			</select>
+		</fieldset>
+		<input type="submit" value="Send order" name="submit">
+		
+
+	</form>
+</body>
+</html>
