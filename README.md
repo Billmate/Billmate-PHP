@@ -41,5 +41,5 @@ It's your own resposibility to make sure your application works according to the
 ### 2.0.8 (2014-11-25)
 * Url is updated. Some variables are updated
 
-### 2.0 (2014-06-252)
+### 2.0 (2014-06-25)
 * Second Version
