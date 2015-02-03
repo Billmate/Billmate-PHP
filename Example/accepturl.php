@@ -5,10 +5,10 @@ $post = (!empty($_POST)) ? $_POST : $_GET;
 
 require_once('Billmate.php');
 
-$eid = '7270'; // Change to yours
-$secret = '606250886062'; // Change to yours.
+define('ID',0000); // Set your ID, you can find it in Billmate Online.
+define('SECRET',0000000); // Set your secret, you can find it in Billmate Online.
 
-$billmate = new Billmate($eid,$secret);
+$billmate = new Billmate(ID,SECRET);
 $result = $billmate->verify_hash($post);
 /*
  *  the result will contain if all goes well
@@ -19,10 +19,10 @@ $result = $billmate->verify_hash($post);
  */
 if(isset($result['code']) || isset($result['error'])){
 	// There are some errors handle it in your system
-	echo 'It was a problem when the payment was processed';
+	echo 'There was a problem when the payment was processed';
 	echo 'Reason: '. $result['message'];
 } else {
 	// There was no errors, mark order as paid in your system.
-	echo 'Your order with order number '. $result['orderid']. ' has status ' .$result['status'];
+	echo 'Your order with order number '. $result['orderid']. ' were successful and have status ' .$result['status'];
 }
 

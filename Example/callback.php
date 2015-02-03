@@ -5,10 +5,10 @@ $post = file_get_contents('php://input');
 
 require_once('Billmate.php');
 
-$eid = '7270'; // Change to yours
-$secret = '606250886062'; // Change to yours.
+define('ID',0000); // Set your ID, you can find it in Billmate Online.
+define('SECRET',0000000); // Set your secret, you can find it in Billmate Online.
 
-$billmate = new Billmate($eid,$secret);
+$billmate = new Billmate(ID,SECRET);
 $result = $billmate->verify_hash($post);
 /*
  * the result will contain if all goes well
@@ -23,6 +23,6 @@ if(isset($result['code']) || isset($result['error'])){
 	// Some errors mark order as pending payment maybe?
 
 } else {
-	// Here you will add your code to process the order 
+	// Here you will add your code to process the order
 
 }

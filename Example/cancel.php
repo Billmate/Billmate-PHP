@@ -4,10 +4,10 @@ $post = (!empty($_POST)) ? $_POST : $_GET;
 
 require_once('Billmate.php');
 
-$eid = '7270'; // Change to yours
-$secret = '606250886062'; // Change to yours.
+define('ID',0000); // Set your ID, you can find it in Billmate Online.
+define('SECRET',0000000); // Set your secret, you can find it in Billmate Online.
 
-$billmate = new Billmate($eid,$secret);
+$billmate = new Billmate(ID,SECRET);
 $result = $billmate->verify_hash($post);
 /*
  *  the result will contain if all goes well
