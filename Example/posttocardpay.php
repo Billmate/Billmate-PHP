@@ -7,7 +7,7 @@
 
 require_once('Billmate.php');
 
-define('ID',0000): // Set your ID, you can find it in Billmate Online.
+define('ID',0000); // Set your ID, you can find it in Billmate Online.
 define('SECRET',0000000); // Set your secret, you can find it in Billmate Online.
 
 define('PAYMENTMETHOD', 8); // Defines the payment method. 8=Card, 16=Bank, 24=Card/Bank
