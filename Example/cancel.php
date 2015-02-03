@@ -1,7 +1,6 @@
 <?php
 $post = (!empty($_POST)) ? $_POST : $_GET;
 
-
 require_once('Billmate.php');
 
 define('ID',0000); // Set your ID, you can find it in Billmate Online.
