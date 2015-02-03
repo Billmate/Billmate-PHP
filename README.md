@@ -1,4 +1,4 @@
-# Billmate PHP class for communication with Billmate API
+# Billmate PHP class for communication with Billmate API v. 2
 By Billmate AB - [https://billmate.se](https://billmate.se/ "billmate.se")
 
 Documentation regarding the API used in this class file can be found [here](http://billmate.se/api-integration).
