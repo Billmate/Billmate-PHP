@@ -20,7 +20,7 @@ define('DEBUG', false); // Set to true for debug messages, set to false for no d
 $orderValues['PaymentData'] = array(
     'method' => CARDPAY,
     'currency' => 'SEK',
-    'country' => 'SE', // Country in ISA Alpha 2 format
+    'country' => 'SE', // Country in ISO Alpha 2 format
     'orderid' => $_POST['order_id'], // Your order id
     'autoactivate' => AUTOACTIVATE, // Could be SALE or AUTHORIZE, see declaration.
     'language' => 'sv'
