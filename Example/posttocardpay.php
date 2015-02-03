@@ -115,7 +115,7 @@ if(isset($result['code'])){
 
 } else {
 
-	// All went good, redirect customer to Billmate window
+	// All went good, redirect customer to Billmate payment window
 	header('Location: '.$result['url']);
 
 }
