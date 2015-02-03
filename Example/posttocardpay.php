@@ -108,6 +108,7 @@ $billmate = new Billmate($eid, $secret, true, TEST, false);
 $result = $billmate->addPayment($orderValues);
 
 if(isset($result['code'])){
+
     // Something went wrong, display error
 	echo 'Something went wrong';
 	echo  $result['message'];
