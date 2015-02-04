@@ -2,7 +2,7 @@
 /**
  * Billmate
  *
- * Billmate API - PHP Class 
+ * Billmate API - PHP Class
  *
  * LICENSE: This source file is part of Billmate API, that is fully owned by Billmate AB
  * This is not open source. For licensing queries, please contact Billmate AB at info@billmate.se.
@@ -12,7 +12,7 @@
  * @author Yuksel Findik <yuksel@billmate.se>
  * @copyright 2013-2014 Billmate AB
  * @license Proprietary and fully owned by Billmate AB
- * @version 1.1
+ * @version 2.1.6
  * @link http://www.billmate.se
  *
  * History:
@@ -51,7 +51,7 @@ class BillMate{
 	 	return $this->call($name,$args[0]);
 	}
 	function call($function,$params) {
-		
+
 		$values = array(
 			"credentials" => array(
 				"id"=>$this->ID,
@@ -79,7 +79,7 @@ class BillMate{
 	function verify_hash($response) {
 		$response_array = is_array($response)?$response:json_decode($response,true);
 		//If it is not decodable, the actual response will be returnt.
-		if(!$response_array && !is_array($response)) 
+		if(!$response_array && !is_array($response))
 			return $response;
 		if(is_array($response)) {
 			$response_array['credentials'] = json_decode($response['credentials'], true);
@@ -102,18 +102,18 @@ class BillMate{
 		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, $this->SSL);
 		$vh = $this->SSL?((function_exists("phpversion") && function_exists("version_compare") && version_compare(phpversion(),'5.4','>=')) ? 2 : true):false;
 		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, $vh);
-		curl_setopt($ch, CURLOPT_HTTPHEADER, array(                                                                          
-		    'Content-Type: application/json',                                                                                
-		    'Content-Length: ' . strlen($parameters))                                                                       
+		curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+		    'Content-Type: application/json',
+		    'Content-Length: ' . strlen($parameters))
 		);
 		curl_setopt($ch, CURLOPT_POSTFIELDS, $parameters);
 		$data = curl_exec($ch);
-		
+
 		if (curl_errno($ch)){
 	        $curlerror = curl_error($ch);
 	        return json_encode(array("error"=>9510,"message"=>htmlentities($curlerror)));
 		}else curl_close($ch);
-		
+
 	    return $data;
 	}
 	function hash($args) {
@@ -127,6 +127,6 @@ class BillMate{
     	else print $out;
     	print "'\n";
     }
-    
+
 }
 ?>
