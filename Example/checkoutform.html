@@ -7,14 +7,14 @@
 <style>
 	fieldset{
 		float:left;
-		
+
 	}
 	label{
 		display: block;
 	}
 </style>
 <body>
-	<form action="posttocardpay.php" method="POST">
+	<form action="posttoapi.php" method="POST">
 		<fieldset>
 			<legend>Billing Address</legend>
 			<label for="firstname">First name</label>
@@ -29,14 +29,14 @@
 			<input type="text" name="postcode">
 			<label for="city">City</label>
 			<input type="text" name="city">
-			
+
 			<input type="hidden" name="country" value="SE">
 			<label for="phone">Telephone</label>
 			<input type="text" name="phone">
 			<label for="email">Email</label>
 			<input type="text" name="email">
 		</fieldset>
-		
+
 
 		<fieldset>
 			<legend>Shipping-Address</legend>
@@ -59,7 +59,7 @@
 			<label for="shipping_phone">Telephone</label>
 			<input type="text" name="shipping_phone">
 		</fieldset>
-		
+
 		<input type="hidden" name="order_id" value="123567">
 		<input type="hidden" name="customer_id" value="1234567">
 		<fieldset>
@@ -79,7 +79,7 @@
 			</select>
 		</fieldset>
 		<input type="submit" value="Send order" name="submit">
-		
+
 
 	</form>
 </body>
