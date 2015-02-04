@@ -23,7 +23,7 @@ $orderValues['PaymentData'] = array(
     'method' => PAYMENTMETHOD, // See declation on top.
     'currency' => 'SEK',
     'country' => 'SE', // Country in ISO Alpha 2 format
-    'orderid' => $_POST['order_id'], // Your order id
+    'orderid' => substr($_POST['order_id'].'-'.time(),0,10), // Your order id, added timestamp to make order_id unique. No need in real application.
     'autoactivate' => AUTOACTIVATE, // Could be SALE or AUTHORIZE, see declaration.
     'language' => 'sv'
 );
