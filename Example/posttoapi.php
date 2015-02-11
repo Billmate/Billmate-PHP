@@ -16,7 +16,7 @@ define('SSL', true); // Set this to your SSL setting, true or false.
 define('AUTOACTIVATE', 0); // Set 0 for no auto activatem set to 1 for auto activate
 define('PROMPTNAME',0); // Set 0 for no name prompt on payment windows. Set 1 for name prompt.
 define('THREEDSECURE',1); // Set 0 for no 3D Secure on card transactions. Set 1 for 3D secure requirement.
-define('TEST', false); // Set to true for test mode, set to true for live mode
+define('TEST', false); // Set to true for test mode, set to false for live mode
 define('DEBUG', false); // Set to true for debug messages, set to false for no debug messages.
 
 $orderValues['PaymentData'] = array(
