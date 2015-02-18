@@ -1,5 +1,7 @@
 <html>
 <head>
+    <!-- Make sure website is Utf-8 encoded, Normally almost all websites are. -->
+    <meta charset="utf-8"/>
 	<title>
 		My store
 	</title>
@@ -14,7 +16,9 @@
 	}
 </style>
 <body>
-	<form action="posttoapi.php" method="POST">
+    <!-- If you have other encoding than Utf-8 you have to select accept-charset="UTF-8"
+         Otherwise the Php function json_encode may fail, which make the 9003 error code from Billmate Api -->
+	<form action="posttoapi.php" accept-charset="UTF-8" method="POST">
 		<fieldset>
 			<legend>Billing Address</legend>
 			<label for="firstname">First name</label>
