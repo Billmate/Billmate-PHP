@@ -17,6 +17,10 @@ It's your own resposibility to make sure your application works according to the
 
 ## Changelog
 
+### 2.1.9 (2016-02-16)
+* CURLOPT_CAINFO is added to make sure correct rootcertificates is in place.
+* Zero length check for data is added. 
+
 ### 2.1.6 (2015-01-29)
 * Language is added as an optional paramater in credentials, version_compare is added for Curl setup
 

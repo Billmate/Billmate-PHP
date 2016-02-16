@@ -25,6 +25,9 @@
  * 2.1.4 20150115 Yuksel Findik: verify_hash is improved. The serverdata is added instead of useragent
  * 2.1.5 20150122 Yuksel Findik: Will make a utf8_decode before it returns the result
  * 2.1.6 20150129 Yuksel Findik: Language is added as an optional paramater in credentials, version_compare is added for Curl setup
+ * 2.1.7 20150922 Yuksel Findik: PHP Notice for CURLOPT_SSL_VERIFYHOST is fixed
+ * 2.1.8 20151103 Yuksel Findik: CURLOPT_CONNECTTIMEOUT is added
+ * 2.1.9 20151103 Yuksel Findik: CURLOPT_CAINFO is added, Check for Zero length data.
  */
 class BillMate{
 	var $ID = "";
@@ -38,7 +41,7 @@ class BillMate{
 	function BillMate($id,$key,$ssl=true,$test=false,$debug=false,$referer=array()){
 		$this->ID = $id;
 		$this->KEY = $key;
-        defined('BILLMATE_CLIENT') || define('BILLMATE_CLIENT',  "BillMate:2.1.6" );
+        defined('BILLMATE_CLIENT') || define('BILLMATE_CLIENT',  "BillMate:2.1.9" );
         defined('BILLMATE_SERVER') || define('BILLMATE_SERVER',  "2.0.6" );
         defined('BILLMATE_LANGUAGE') || define('BILLMATE_LANGUAGE',  "" );
 		$this->SSL = $ssl;
@@ -51,7 +54,6 @@ class BillMate{
 	 	return $this->call($name,$args[0]);
 	}
 	function call($function,$params) {
-
 		$values = array(
 			"credentials" => array(
 				"id"=>$this->ID,
@@ -66,7 +68,6 @@ class BillMate{
 			"data"=> $params,
 			"function"=>$function,
 		);
-
 		$this->out("CALLED FUNCTION",$function);
 		$this->out("PARAMETERS TO BE SENT",$values);
 		switch ($this->MODE) {
@@ -100,20 +101,40 @@ class BillMate{
 		curl_setopt($ch, CURLOPT_URL, "http".($this->SSL?"s":"")."://".$this->URL);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, $this->SSL);
+		curl_setopt($ch, CURLOPT_CONNECTTIMEOUT,10);
+
+		// Start Mod Jesper.  Added cacert.pem to make sure server has the latest ssl certs.
+		$path = __DIR__.'/cacert.pem';
+		curl_setopt($ch,CURLOPT_CAINFO,$path);
+		// End mod Jesper
 		$vh = $this->SSL?((function_exists("phpversion") && function_exists("version_compare") && version_compare(phpversion(),'5.4','>=')) ? 2 : true):false;
-		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, $vh);
+		if($this->SSL){
+			if(function_exists("phpversion") && function_exists("version_compare")){
+				$cv = curl_version();
+				if(version_compare(phpversion(),'5.4','>=') || version_compare($cv["version"],'7.28.1','>='))
+					$vh = 2;
+				else $vh = true;
+			}
+			else
+				$vh = true;
+		}
+		else
+			$vh = false;
+		@curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, $vh);
 		curl_setopt($ch, CURLOPT_HTTPHEADER, array(
 		    'Content-Type: application/json',
 		    'Content-Length: ' . strlen($parameters))
 		);
 		curl_setopt($ch, CURLOPT_POSTFIELDS, $parameters);
 		$data = curl_exec($ch);
-
 		if (curl_errno($ch)){
 	        $curlerror = curl_error($ch);
-	        return json_encode(array("error"=>9510,"message"=>htmlentities($curlerror)));
-		}else curl_close($ch);
-
+	        return json_encode(array("code"=>9510,"message"=>htmlentities($curlerror)));
+		} else
+			curl_close($ch);
+		if(strlen($data) == 0){
+			return json_encode(array("code" => 9510,"message" => htmlentities("Communication Error")));
+		}
 	    return $data;
 	}
 	function hash($args) {
@@ -127,6 +148,5 @@ class BillMate{
     	else print $out;
     	print "'\n";
     }
-
 }
 ?>
