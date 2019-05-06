@@ -26,32 +26,35 @@
  * 2.1.5 20150122 Yuksel Findik: Will make a utf8_decode before it returns the result
  * 2.1.6 20150129 Yuksel Findik: Language is added as an optional paramater in credentials, version_compare is added for Curl setup
  */
-class BillMate{
-	var $ID = "";
-	var $KEY = "";
-	var $URL = "api.billmate.se";
-	var $MODE = "CURL";
-	var $SSL = true;
-	var $TEST = false;
-	var $DEBUG = false;
-	var $REFERER = false;
-	function __construct($id, $key, $ssl=true, $test=false, $debug=false, $referer=array()){
-		$this->ID = $id;
-		$this->KEY = $key;
+class BillMate {
+    var $ID = "";
+    var $KEY = "";
+    var $URL = "api.billmate.se";
+    var $MODE = "CURL";
+    var $SSL = true;
+    var $TEST = false;
+    var $DEBUG = false;
+    var $REFERER = false;
+    function __construct($id, $key, $ssl=true, $test=false, $debug=false, $referer=array())
+    {
+        $this->ID = $id;
+        $this->KEY = $key;
         defined('BILLMATE_CLIENT') || define('BILLMATE_CLIENT',  "BillMate:2.1.6" );
         defined('BILLMATE_SERVER') || define('BILLMATE_SERVER',  "2.0.6" );
         defined('BILLMATE_LANGUAGE') || define('BILLMATE_LANGUAGE',  "" );
-		$this->SSL = $ssl;
-		$this->DEBUG = $debug;
-		$this->TEST = $test;
-		$this->REFERER = $referer;
-	}
-	public function __call($name,$args){
-	 	if(count($args)==0) return; //Function call should be skipped
-	 	return $this->call($name,$args[0]);
-	}
-	function call($function,$params) {
+        $this->SSL = $ssl;
+        $this->DEBUG = $debug;
+        $this->TEST = $test;
+        $this->REFERER = $referer;
+    }
+    public function __call($name, $args)
+    {
+        if(count($args)==0) return; //Function call should be skipped
+        return $this->call($name,$args[0]);
+    }
 
+    function call($function, $params)
+    {
         $values = array(
             "credentials" => array(
                 "id" => $this->ID,
@@ -70,15 +73,15 @@ class BillMate{
             "function" => $function,
         );
 
-		$this->out("CALLED FUNCTION",$function);
-		$this->out("PARAMETERS TO BE SENT",$values);
-		switch ($this->MODE) {
-			case "CURL":
-				$response = $this->curl(json_encode($values));
-				break;
-		}
-		return $this->verify_hash($response);
-	}
+        $this->out("CALLED FUNCTION",$function);
+        $this->out("PARAMETERS TO BE SENT",$values);
+        switch ($this->MODE) {
+            case "CURL":
+                $response = $this->curl(json_encode($values));
+                break;
+        }
+        return $this->verify_hash($response);
+    }
 
     public function getServerData()
     {
@@ -100,57 +103,68 @@ class BillMate{
         return $return;
     }
 
-	function verify_hash($response) {
-		$response_array = is_array($response)?$response:json_decode($response,true);
-		//If it is not decodable, the actual response will be returnt.
-		if(!$response_array && !is_array($response))
-			return $response;
-		if(is_array($response)) {
-			$response_array['credentials'] = json_decode($response['credentials'], true);
-			$response_array['data'] = json_decode($response['data'],true);
-		}
-		//If it is a valid response without any errors, it will be verified with the hash.
-		if(isset($response_array["credentials"])){
-			$hash = $this->hash(json_encode($response_array["data"]));
-			//If hash matches, the data will be returnt as array.
-			if($response_array["credentials"]["hash"]==$hash)
-				return $response_array["data"];
-			else return array("code"=>9511,"message"=>"Verification error","hash"=>$hash,"hash_received"=>$response_array["credentials"]["hash"]);
-		}
-		return array_map("utf8_decode",$response_array);
-	}
-	function curl($parameters) {
-		$ch = curl_init();
-		curl_setopt($ch, CURLOPT_URL, "http".($this->SSL?"s":"")."://".$this->URL);
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, $this->SSL);
-		$vh = $this->SSL?((function_exists("phpversion") && function_exists("version_compare") && version_compare(phpversion(),'5.4','>=')) ? 2 : true):false;
-		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, $vh);
-		curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-		    'Content-Type: application/json',
-		    'Content-Length: ' . strlen($parameters))
-		);
-		curl_setopt($ch, CURLOPT_POSTFIELDS, $parameters);
-		$data = curl_exec($ch);
-
-		if (curl_errno($ch)){
-	        $curlerror = curl_error($ch);
-	        return json_encode(array("error"=>9510,"message"=>htmlentities($curlerror)));
-		}else curl_close($ch);
-
-	    return $data;
-	}
-	function hash($args) {
-		$this->out("TO BE HASHED DATA",$args);
-    	return hash_hmac('sha512',$args,$this->KEY);
+    function verify_hash($response)
+    {
+        $response_array = is_array($response)?$response:json_decode($response,true);
+        //If it is not decodable, the actual response will be returnt.
+        if(!$response_array && !is_array($response)) {
+            return $response;
+        }
+        if(is_array($response)) {
+            $response_array['credentials'] = json_decode($response['credentials'], true);
+            $response_array['data'] = json_decode($response['data'],true);
+        }
+        //If it is a valid response without any errors, it will be verified with the hash.
+        if(isset($response_array["credentials"])){
+            $hash = $this->hash(json_encode($response_array["data"]));
+            //If hash matches, the data will be returnt as array.
+            if ($response_array["credentials"]["hash"]==$hash) {
+                return $response_array["data"];
+            } else {
+                return array("code"=>9511,"message"=>"Verification error","hash"=>$hash,"hash_received"=>$response_array["credentials"]["hash"]);
+            }
+        }
+        return array_map("utf8_decode",$response_array);
     }
-    function out($name,$out) {
-    	if (!$this->DEBUG) return;
-    	print "$name: '";
-    	if(is_array($out) or  is_object($out)) print_r($out);
-    	else print $out;
-    	print "'\n";
+
+    function curl($parameters)
+    {
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, "http".($this->SSL?"s":"")."://".$this->URL);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, $this->SSL);
+        $vh = $this->SSL?((function_exists("phpversion") && function_exists("version_compare") && version_compare(phpversion(),'5.4','>=')) ? 2 : true):false;
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, $vh);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+            'Content-Type: application/json',
+            'Content-Length: ' . strlen($parameters))
+        );
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $parameters);
+        $data = curl_exec($ch);
+
+        if (curl_errno($ch)) {
+            $curlerror = curl_error($ch);
+            return json_encode(array("error"=>9510,"message"=>htmlentities($curlerror)));
+        } else {
+            curl_close($ch);
+        }
+
+        return $data;
+    }
+
+    function hash($args)
+    {
+        $this->out("TO BE HASHED DATA",$args);
+        return hash_hmac('sha512',$args,$this->KEY);
+    }
+
+    function out($name, $out)
+    {
+        if (!$this->DEBUG) return;
+        print "$name: '";
+        if(is_array($out) or  is_object($out)) print_r($out);
+        else print $out;
+        print "'\n";
     }
 
 }
-?>
