@@ -35,7 +35,7 @@ class BillMate{
 	var $TEST = false;
 	var $DEBUG = false;
 	var $REFERER = false;
-	function BillMate($id,$key,$ssl=true,$test=false,$debug=false,$referer=array()){
+	function __construct($id, $key, $ssl=true, $test=false, $debug=false, $referer=array()){
 		$this->ID = $id;
 		$this->KEY = $key;
         defined('BILLMATE_CLIENT') || define('BILLMATE_CLIENT',  "BillMate:2.1.6" );
