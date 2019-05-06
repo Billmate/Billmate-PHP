@@ -52,20 +52,23 @@ class BillMate{
 	}
 	function call($function,$params) {
 
-		$values = array(
-			"credentials" => array(
-				"id"=>$this->ID,
-				"hash"=>$this->hash(json_encode($params)),
-				"version"=>BILLMATE_SERVER,
-				"client"=>BILLMATE_CLIENT,
-				"serverdata"=>array_merge($_SERVER,$this->REFERER),
-				"time"=>microtime(true),
-				"test"=>$this->TEST?"1":"0",
-				"language"=>BILLMATE_LANGUAGE
-			),
-			"data"=> $params,
-			"function"=>$function,
-		);
+        $values = array(
+            "credentials" => array(
+                "id" => $this->ID,
+                "hash" => $this->hash(json_encode($params)),
+                "version" => BILLMATE_SERVER,
+                "client" => BILLMATE_CLIENT,
+                "serverdata" => array_merge(
+                    $this->getServerData(),
+                    $this->REFERER
+                ),
+                "time" => microtime(true),
+                "test" => $this->TEST ? "1" : "0",
+                "language" => BILLMATE_LANGUAGE
+            ),
+            "data" => $params,
+            "function" => $function,
+        );
 
 		$this->out("CALLED FUNCTION",$function);
 		$this->out("PARAMETERS TO BE SENT",$values);
@@ -76,6 +79,27 @@ class BillMate{
 		}
 		return $this->verify_hash($response);
 	}
+
+    public function getServerData()
+    {
+        $return = array();
+        $keys = array(
+            'HTTP_HOST',
+            'HTTP_USER_AGENT',
+            'REMOTE_ADDR',
+            'REQUEST_METHOD',
+            'REQUEST_URI',
+            'SERVER_ADDR',
+            'SERVER_NAME'
+        );
+        foreach ($keys as $key) {
+            if (isset($_SERVER[$key])) {
+                $return[$key] = $_SERVER[$key];
+            }
+        }
+        return $return;
+    }
+
 	function verify_hash($response) {
 		$response_array = is_array($response)?$response:json_decode($response,true);
 		//If it is not decodable, the actual response will be returnt.
